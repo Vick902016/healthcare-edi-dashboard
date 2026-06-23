@@ -1,17 +1,15 @@
 import streamlit as st
 import pandas as pd
 import sqlite3
-import os
 import setup_db
 
 # 1. Page Configuration
 st.set_page_config(page_title="Healthcare EDI Dashboard", layout="wide")
 st.title("🏥 Daily File Transmission Monitor (D1, D2, D3)")
 
-# 1.5 Auto-Generate Database for Cloud Deployment
-# If the cloud server doesn't have the database, it will generate it instantly.
-if not os.path.exists('healthcare_jobs.db'):
-    setup_db.create_mock_database()
+# 1.5 Force Generate Fresh Data
+# Guarantees the table is built and filled with new mock data every time the app boots.
+setup_db.create_mock_database()
 
 # 2. Fetch Data via SQL
 def load_data():
@@ -21,6 +19,7 @@ def load_data():
     conn.close()
     return df
 
+data = load_data()
 data = load_data()
 
 # 3. High-Level KPIs
